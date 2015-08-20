@@ -1,0 +1,57 @@
+<html>
+	<head>
+		<title>
+			Extension Testing
+		</title>
+	</head>
+	<body>
+		<div style="background-color:lightgray; height:100%; padding:0px;">
+			<h1> 
+				This is my web page
+			</h1>
+			<form>
+				<input type="button" value="Page click" onclick="go()">
+				
+				<input type="button" value="Send attribute" onclick="CallExtension()">
+			</form>
+		</div>
+		
+		<script type="text/javascript">
+			var go = function() {
+				var event = document.createEvent('Event');
+				event.initEvent('hello');
+				document.dispatchEvent(event);
+			}	
+				
+			var element;
+			
+			function CallExtension()
+			{			  
+				element = document.createElement("MyExtensionDataElement");
+				element.setAttribute("attribute1", "foobar");
+				element.setAttribute("attribute2", "hello world");
+				document.documentElement.appendChild(element);
+
+				var evt = document.createEvent("Events");
+				evt.initEvent("MyExtensionEvent", true, false);
+				element.dispatchEvent(evt);
+			}
+			
+			
+			function ExtensionAnswer(EvtAnswer)
+			{			
+				alert( element.getAttribute("attribute3") +" " +
+					EvtAnswer.target.getAttribute("Part1"));
+					
+			}
+			document.addEventListener("MyAnswerEvent",function(e) { ExtensionAnswer(e); },false);
+			
+			
+		</script>
+	</body>
+</html>
+
+
+
+		
+
