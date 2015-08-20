@@ -59,6 +59,59 @@ document.addEventListener("fromExtension", receiveMessage, false, true);
 
 
 
+
+var something = {
+	listen_request: function(callback) 
+	{ 
+	// analogue of chrome.extension.onRequest.addListener
+		document.addEventListener("something-query", function(event) {
+			var node = event.target;
+			if (!node || node.nodeType != Node.TEXT_NODE)
+				return;
+
+			var doc = node.ownerDocument;
+			
+			console.log("from extension");
+			console.log(JSON.parse(node.nodeValue));
+						
+			callback(JSON.parse(node.nodeValue), doc, function(response) {
+			
+				node.nodeValue = JSON.stringify(response);
+				var event = doc.createEvent("HTMLEvents");
+				event.initEvent("something-response", true, false);
+				return node.dispatchEvent(event);
+			});
+		}, false, true);
+	},
+ 
+	callback: function(request, sender, callback) {
+		if (request.foo) {
+		
+			return setTimeout(function() {
+				callback({bar: 2});
+			}, 1000);
+		} 
+ 
+		if (request.employees) {		
+			
+			return callback({success: true});
+			
+		}
+
+		return callback(null);
+	}
+}
+
+something.listen_request(something.callback);
+
+
+
+
+
+
+
+
+
 /*
 var myPort = chrome.extension.connect();
 myPort.onMessage.addListener(function(data) {

@@ -11,8 +11,10 @@
 			</h1>
 			<form>
 				<input type="button" value="Page click" onclick="go()">
-				
+				<br><br>
 				<input type="button" value="Send attribute" onclick="CallExtension()">
+				<br><br>
+				<input type="button" value="Load Json" onclick="LoadJson()">
 			</form>
 		</div>
 		
@@ -35,8 +37,7 @@
 				var evt = document.createEvent("Events");
 				evt.initEvent("MyExtensionEvent", true, false);
 				element.dispatchEvent(evt);
-			}
-			
+			}			
 			
 			function ExtensionAnswer(EvtAnswer)
 			{			
@@ -46,7 +47,63 @@
 					
 			}
 			document.addEventListener("MyAnswerEvent",function(e) { ExtensionAnswer(e); },false);
+						
 			
+			var something = {
+				send_request: function(data, callback) 
+				{ 
+					// analogue of chrome.extension.sendRequest
+					var request = document.createTextNode(JSON.stringify(data));
+
+					request.addEventListener("something-response", function(event) {
+						
+						if (callback) {
+							var response = JSON.parse(request.nodeValue);
+							callback(response);
+							request.parentNode.removeChild(request);
+						}
+					}, false);
+
+					document.head.appendChild(request);
+
+					var event = document.createEvent("HTMLEvents");
+					event.initEvent("something-query", true, false);
+					request.dispatchEvent(event);
+				},
+
+				callback: function(response) {
+				  return alert("response: " + response);
+				  
+				}
+			}
+						
+			
+			function LoadJson()
+			{			
+				var xhr = typeof XMLHttpRequest != 'undefined' ? new XMLHttpRequest(): new ActiveXObject('Microsoft.XMLHTTP');
+				xhr.open('get', "http://localhost/ext/emp.json", true);
+				xhr.onreadystatechange = function() {
+					var status;
+					var data;					
+					if (xhr.readyState == 4) { // `DONE`
+						status = xhr.status;
+						if (status == 200) {
+							data = JSON.parse(xhr.responseText);
+							console.log("from page");
+							console.log(data);
+							something.send_request(data, something.callback)						
+							
+						} 
+						else {
+							alert("status = "+status);
+						}
+					}
+				};
+				xhr.send();
+				
+				
+			
+			}
 			
 		</script>
 	</body>
