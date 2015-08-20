@@ -22,9 +22,9 @@
 				event.initEvent('hello');
 				document.dispatchEvent(event);
 			}	
-				
-			var element;
 			
+				
+			var element;			
 			function CallExtension()
 			{			  
 				element = document.createElement("MyExtensionDataElement");
@@ -40,7 +40,8 @@
 			
 			function ExtensionAnswer(EvtAnswer)
 			{			
-				alert( element.getAttribute("attribute3") +" " +
+			//element.getAttribute("attribute3") +
+				alert( " " +
 					EvtAnswer.target.getAttribute("Part1"));
 					
 			}
