@@ -1,0 +1,24 @@
+{
+	"name": "Testing",
+    "description": "",
+    "version": "1",
+    "manifest_version": 2,	
+    "content_scripts": [
+        {
+            "matches": [
+                "http://localhost/test.html"
+            ],
+            "js": [
+                "mycontentscript.js"
+            ],
+            "run_at": "document_end"
+        }
+    ],
+	"background": {
+		"scripts": ["background.js"]
+	},
+	"web_accessible_resources": ["index.js","index.html"],
+    "permissions": [
+        "<all_urls>"
+    ]
+}
