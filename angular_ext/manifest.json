@@ -1,0 +1,31 @@
+{
+	"name": "Angular Extension",
+    "description": "",
+    "version": "1",
+    "manifest_version": 2,	
+	"devtools_page": "devtools.html",
+    "content_scripts": [
+        {
+            "matches": [	
+				"http://localhost/ext/test.html",
+				"https://mail.google.com/mail/*",
+				"https://www.google.co.in/*"				
+            ],
+            "js": [
+                "contentscript.js"
+            ],
+            "run_at": "document_end"
+        }
+    ],
+	"background": {
+		"scripts": ["background.js"],
+		"persistent": true
+	},	
+	"web_accessible_resources": ["app.js"],
+    "permissions": [
+		"<all_urls>",
+		"webRequest",
+		"debugger"
+        
+    ]
+}

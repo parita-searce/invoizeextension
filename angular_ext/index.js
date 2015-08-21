@@ -13,8 +13,6 @@ function sendMsg()
 var go = function() 
 {	
 
-//	parent.postmessage("abc");
-	
 	doc = window.parent.document;
 	//doc = document;
 	var event = doc.createEvent('Event');

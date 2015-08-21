@@ -1,8 +1,17 @@
+var iframe = document.createElement("iframe");
+iframe.setAttribute("id","myExt");
+iframe.setAttribute("src", "http://localhost/ext/extension/index.html");
+iframe.setAttribute("style", "border:none; z-index:50; width:300px; display:block; position:absolute; top:0; right:0px; height:100%");
+iframe.setAttribute("scrolling", "no");
+iframe.setAttribute("frameborder", "0");
+document.body.appendChild(iframe);
 
+/*
 var newdiv = document.createElement("div");
 newdiv.innerHTML='<object style="height:100%" type="text/html" data="http://localhost/ext/extension/index.html" ></object>';
 newdiv.setAttribute("style", "border:none; width:300px; display:block; position:absolute; top:0; right:0px; height:100%");
 document.body.appendChild(newdiv);
+*/
 
 document.addEventListener("hello", function(data) {
     chrome.runtime.sendMessage("test"+data, 
